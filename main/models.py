@@ -6,12 +6,24 @@ import uuid
 class Vendor(models.Model):
     UserId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
     address = models.TextField(null=True)
     
     def __str__(self):
         return self.user
     
+class ProductCategory(models.Model):
+    ProductCategoryId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=200)
+    detail = models.TextField(null=True)
+    
+    def __str__(self):
+        return self.name    
+    
 class Product(models.Model):
+    category = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, null=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True)
+    
     ProductId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     detail = models.TextField(null=True)
@@ -20,13 +32,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name        
     
-class ProductCategory(models.Model):
-    ProductCategoryId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=200)
-    detail = models.TextField(null=True)
-    
-    def __str__(self):
-        return self.name
+
     
 
         
