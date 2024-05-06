@@ -14,7 +14,9 @@ class CustomerAdmin(admin.ModelAdmin):
     list_display = ['user','mobile']    
     
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['customer','order_time']             
+    list_display = ['customer','order_time']    
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ['order','product']               
 
 
 admin.site.register(Vendor, UserAdmin)
@@ -22,6 +24,8 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductCategory, ProductCategoryAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
+
 
 
 
