@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
+# from rest_framework.pagination import LimitOffsetPagination
 from main.models import *
 from main.serializers import *
 
@@ -11,7 +12,7 @@ class VendorList(generics.ListCreateAPIView):
 class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
-    # permission_classes = [permissions.IsAuthenticated]   
+    # permission_classes = pagination.LimitOffsetPagination  
     
     
     
@@ -20,7 +21,7 @@ class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    # pagination_class = pagination.LimitOffsetPagination    
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer    
@@ -31,6 +32,7 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 class CustomerList(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    
 class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer      
@@ -49,4 +51,10 @@ class OrderDetail(generics.ListCreateAPIView):
         order = Order.objects.get(OrderId=order_id)
         order_items = OrderItem.objects.filter(order=order)
         return order_items
+    
+class CustomerAddressViewset(viewsets.ModelViewSet):
+    queryset = CustomerAddress.objects.all()
+    serializer_class = CustomerAddressSerializer
+
+       
       

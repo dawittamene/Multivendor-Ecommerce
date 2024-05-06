@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
+from rest_framework import routers
 
+router = routers.DefaultRouter()
+router.register('address', views.CustomerAddressViewset)
 urlpatterns = [
     path('vendors/', views.VendorList.as_view()),
     path('vendor/<str:pk>/', views.VendorDetail.as_view()),
@@ -15,3 +18,7 @@ urlpatterns = [
     path('order/<str:pk>/', views.OrderDetail.as_view()),
     
 ]
+
+urlpatterns +=router.urls 
+    
+

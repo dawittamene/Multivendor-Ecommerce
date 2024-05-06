@@ -16,7 +16,10 @@ class CustomerAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['customer','order_time']    
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['order','product']               
+    list_display = ['order','product']    
+    
+class CustomerAddressAdmin(admin.ModelAdmin):
+    list_display = ['address']                 
 
 
 admin.site.register(Vendor, UserAdmin)
@@ -25,6 +28,8 @@ admin.site.register(ProductCategory, ProductCategoryAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(CustomerAddress, CustomerAddressAdmin)
+
 
 
 
