@@ -42,11 +42,15 @@ class Customer(models.Model):
     
     
 class Order(models.Model):
+    OrderId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
     customer =  models.ForeignKey(Customer, on_delete=models.CASCADE)    
     order_time = models.DateTimeField(auto_now_add=True)   
 
 
 class OrderItem(models.Model):
+    OrderItemId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
     order =  models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')  
     product =  models.ForeignKey(Customer, on_delete=models.CASCADE)  
     

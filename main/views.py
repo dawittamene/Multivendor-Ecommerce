@@ -11,8 +11,12 @@ class VendorList(generics.ListCreateAPIView):
 class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
-    # permission_classes = [permissions.IsAuthenticated]    
-
+    # permission_classes = [permissions.IsAuthenticated]   
+    
+    
+    
+     
+    # Product
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -21,9 +25,20 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer    
     
+    
+    
+    # Customer
 class CustomerList(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer        
+    serializer_class = CustomerSerializer      
+    
+    
+    # Order
+class OrderList(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+        
+      

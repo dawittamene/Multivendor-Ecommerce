@@ -39,16 +39,16 @@ class CustomerSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['customer']    
+        fields = ['OrderId','customer']    
     def __init__(self, *args, **kwargs):
-        super(CustomerSerializer,self). __init__( *args, **kwargs)
+        super(OrderSerializer,self). __init__( *args, **kwargs)
         self.Meta.depth = 1     
         
-class OrderItem(serializers.ModelSerializer):
+class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['order', 'product']     
+        fields = ['OrderItemId','order', 'product']     
     def __init__(self, *args, **kwargs):
-        super(CustomerSerializer,self). __init__( *args, **kwargs)
+        super(OrderItemSerializer,self). __init__( *args, **kwargs)
         self.Meta.depth = 1          
         
