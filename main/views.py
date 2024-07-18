@@ -3,6 +3,8 @@ from rest_framework import generics, permissions, viewsets
 # from rest_framework.pagination import LimitOffsetPagination
 from main.models import *
 from main.serializers import *
+from .pagination import CustomLimitOffsetPagination
+
 
 class VendorList(generics.ListCreateAPIView):
     queryset = Vendor.objects.all()
@@ -21,7 +23,7 @@ class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # pagination_class = pagination.LimitOffsetPagination    
+    pagination_class = CustomLimitOffsetPagination 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer    
@@ -56,5 +58,8 @@ class CustomerAddressViewset(viewsets.ModelViewSet):
     queryset = CustomerAddress.objects.all()
     serializer_class = CustomerAddressSerializer
 
+class ProductRatingViewset(viewsets.ModelViewSet):
+    queryset = ProductRating.objects.all()
+    serializer_class = ProductRatingSerializer
        
       
