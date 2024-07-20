@@ -4,6 +4,7 @@ from rest_framework import generics, permissions, viewsets
 from main.models import *
 from main.serializers import *
 from .pagination import CustomLimitOffsetPagination
+from django.shortcuts import get_object_or_404
 
 
 class VendorList(generics.ListCreateAPIView):
@@ -17,13 +18,30 @@ class VendorDetail(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = pagination.LimitOffsetPagination  
     
     
+class CategoryList(generics.ListCreateAPIView):
+    queryset = ProductCategory.objects.all()
+    serializer_class = CategorySerializer
+    pagination_class = CustomLimitOffsetPagination
     
-     
-    # Product
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductCategory.objects.all()
+    serializer_class = CategorySerializer
+    
+
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    pagination_class = CustomLimitOffsetPagination 
+    pagination_class = CustomLimitOffsetPagination
+    
+    def get_queryset(self):
+        qs = super().get_queryset()
+        category_id = self.request.query_params.get('category')
+        
+        if category_id:
+            category = get_object_or_404(ProductCategory, pk=category_id)
+            qs = qs.filter(category=category)
+        
+        return qs
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer    
@@ -34,6 +52,8 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 class CustomerList(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    pagination_class = CustomLimitOffsetPagination 
+    
     
 class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
@@ -44,6 +64,8 @@ class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
 class OrderList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    pagination_class = CustomLimitOffsetPagination 
+    
     
 class OrderDetail(generics.ListCreateAPIView):
     serializer_class = OrderDetailSerializer
