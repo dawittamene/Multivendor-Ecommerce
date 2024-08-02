@@ -32,6 +32,8 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(CustomerAddress, CustomerAddressAdmin)
 admin.site.register(ProductRating, ProductRatingAdmin)
+admin.site.register(ProductImage)
+
 
 
 

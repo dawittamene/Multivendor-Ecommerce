@@ -34,9 +34,9 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name    
-    # def tag_list(self):
-    #     tagLink = self.tags.split(',')
-    #     print(tagLink)    
+    def tag_list(self):
+        tagList = self.tags.split(',')
+        return tagList   
     
 # customer Model
 class Customer(models.Model):
@@ -84,6 +84,15 @@ class ProductRating(models.Model):
     
     def __str__(self):
         return f'{self.rating} - {self.reviews}'
+    
+    
+class ProductImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_image')
+    image = models.ImageField(upload_to='product_image/', null=True)
+    
+    def __str__(self):
+        return self.image.url    
     
     
         

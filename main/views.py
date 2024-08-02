@@ -5,7 +5,7 @@ from main.models import *
 from main.serializers import *
 from .pagination import CustomLimitOffsetPagination
 from django.shortcuts import get_object_or_404
-
+from rest_framework import status
 
 class VendorList(generics.ListCreateAPIView):
     queryset = Vendor.objects.all()
@@ -35,13 +35,35 @@ class ProductList(generics.ListCreateAPIView):
     
     def get_queryset(self):
         qs = super().get_queryset()
-        category_id = self.request.query_params.get('category')
-        
-        if category_id:
-            category = get_object_or_404(ProductCategory, pk=category_id)
+        if 'category' in self.request.GET:
+            category=self.request.GET['category']
+            category=ProductCategory.objects.get(id=category)
             qs = qs.filter(category=category)
-        
         return qs
+    
+class TagProductList(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = CustomLimitOffsetPagination
+    
+    def get_queryset(self):
+        qs = super().get_queryset()
+        tag=self.kwargs['tag']
+        qs = qs.filter(tags__icontains=tag)
+        return qs
+    
+class RelatedProductList(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    pagination_class = CustomLimitOffsetPagination
+    
+    def get_queryset(self):
+        qs = super().get_queryset()
+        product_id=self.kwargs['pk']
+        product=Product.objects.get(id=product_id)
+        qs = qs.filter(category=product.category).exclude(id=product_id)
+        return qs    
+        
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer    

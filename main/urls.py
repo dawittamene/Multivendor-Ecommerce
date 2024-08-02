@@ -1,6 +1,5 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
+
 from . import views
 from rest_framework import routers
 
@@ -12,7 +11,11 @@ urlpatterns = [
     path('vendors/', views.VendorList.as_view(), name='vendor-list'),
     path('vendor/<str:pk>/', views.VendorDetail.as_view(), name='vendor-detail'),
     path('products/', views.ProductList.as_view(), name='product-list'),
+    path('products/<str:tag>/', views.TagProductList.as_view(), name='tag-list'),
+    
     path('product/<str:pk>/', views.ProductDetail.as_view(), name='product-detail'),
+    path('related-product/<str:pk>/', views.RelatedProductList.as_view(), name='relatedProductList'),
+    
     
     path('categories/', views.CategoryList.as_view(), name='category-list'),
     path('category/<str:pk>/', views.CategoryDetail.as_view(), name='category-detail'),
@@ -26,9 +29,8 @@ urlpatterns = [
     
 ]
 
+
 # Include the static media files configuration
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += router.urls
 
