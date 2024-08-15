@@ -22,6 +22,8 @@ urlpatterns = [
     
     path('customers/', views.CustomerList.as_view(), name='customer-list'),
     path('customer/<str:pk>/', views.CustomerDetail.as_view(), name='customer-detail'),
+    path('customer/login', views.Customerlogin, name='customer-login'),
+    
     
     path('orders/', views.OrderList.as_view(), name='order-list'),
     path('order/<str:pk>/', views.OrderDetail.as_view(), name='order-detail'),

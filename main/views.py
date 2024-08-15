@@ -6,6 +6,9 @@ from main.serializers import *
 from .pagination import CustomLimitOffsetPagination
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate
 
 class VendorList(generics.ListCreateAPIView):
     queryset = Vendor.objects.all()
@@ -22,10 +25,27 @@ class CategoryList(generics.ListCreateAPIView):
     queryset = ProductCategory.objects.all()
     serializer_class = CategorySerializer
     pagination_class = CustomLimitOffsetPagination
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_param = self.request.query_params.get('category')
+
+        if category_param:
+            try:
+                category_uuid = UUID(category_param)
+            except ValueError:
+                raise ValidationError(f"'{category_param}' is not a valid UUID.")
+
+            queryset = queryset.filter(id=category_uuid)
+
+        return queryset
+
     
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductCategory.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = CustomLimitOffsetPagination
+    
     
 
 class ProductList(generics.ListCreateAPIView):
@@ -107,3 +127,23 @@ class ProductRatingViewset(viewsets.ModelViewSet):
     serializer_class = ProductRatingSerializer
        
       
+      
+    # auth
+@csrf_exempt    
+def Customerlogin(request):
+    email=request.POST.get('email')
+    password=request.POST.get('password')
+    user=authenticate(email=email, password=password)
+    if user:
+        msg={
+            'bool':True,
+            'user':user.email
+        }
+    else:
+         msg={
+            'bool':False,
+            'user':'invalid email/password'
+        }    
+    
+    return JsonResponse(mes)     
+        

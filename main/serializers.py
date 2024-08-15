@@ -16,13 +16,22 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = ['id','product', 'image']
                         
                                 
+
 class ProductSerializer(serializers.ModelSerializer):
-    product_rating = serializers.StringRelatedField(many=True, read_only=True)
-    product_image = ProductImageSerializer(many=True, read_only=True)
+    tag_list = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ['id','name','image','slug','price','category','vendor','detail','tags','product_rating','product_image','tag_list']
+        fields = ['id', 'name', 'slug', 'detail', 'price', 'image_url', 'tag_list']
+
+    def get_tag_list(self, obj):
+        return obj.tag_list()
+
+    def get_image_url(self, obj):
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.image.url) if obj.image else None
+
 
 
 
